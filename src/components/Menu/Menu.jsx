@@ -4,7 +4,8 @@ import { useLoaderData } from "react-router-dom";
 import MenuItem from "./MenuItem";
 export function Menu() {
   const menuData = useLoaderData();
-  console.log(menuData);
+  // console.log(menuData);
+  console.log("rendered");
   return (
     <ul>
       {menuData.map((menuItem) => {
