@@ -17,7 +17,7 @@ export function CreateUser() {
         type="text"
         placeholder="Your full name"
         value={username}
-        className="w-72"
+        className="h-10 w-72"
         onChange={(e) => setUsername(e.target.value)}
       />
 
