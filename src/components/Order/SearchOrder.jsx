@@ -15,7 +15,7 @@ export const SearchOrder = function () {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="Search order" ref={queryRef} />
+      <input type="text" placeholder="Search order #" ref={queryRef} />
     </form>
   );
 };
