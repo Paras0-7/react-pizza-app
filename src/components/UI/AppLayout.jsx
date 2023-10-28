@@ -12,7 +12,7 @@ export const AppLayout = function () {
       {isLoading && <Loader />}
       <Header />
       <div className="overflow-auto">
-        <main className="mx-auto max-w-3xl bg-red-300">
+        <main className="mx-auto max-w-3xl">
           <Outlet />
         </main>
       </div>
