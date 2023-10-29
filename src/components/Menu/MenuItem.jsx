@@ -1,12 +1,24 @@
 /* eslint-disable no-unused-vars */
 
+import { useDispatch } from "react-redux";
 import { formatCurrency } from "../../utils/helpers";
 import { Button } from "../UI/Button";
+import { cartActions } from "../../store/slices/cartSlice";
 
 /* eslint-disable react/prop-types */
 export function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+  const dispatch = useDispatch();
 
+  const addToCart = function () {
+    const newItem = {
+      pizzaId: id,
+      name,
+      unitPrice,
+    };
+
+    dispatch(cartActions.addItem(newItem));
+  };
   return (
     <li className="flex gap-4 py-2">
       <img
@@ -27,7 +39,9 @@ export function MenuItem({ pizza }) {
               Sold out
             </p>
           )}
-          <Button type="small">Add to Cart</Button>
+          <Button disabled={soldOut} type="small" onClick={addToCart}>
+            Add to Cart
+          </Button>
         </div>
       </div>
     </li>
