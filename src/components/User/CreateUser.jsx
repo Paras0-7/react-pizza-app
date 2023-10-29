@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Button } from "../UI/Button";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../store/slices/userSlice";
 
 export function CreateUser() {
   const [username, setUsername] = useState("");
-
+  const dispatch = useDispatch();
   function handleSubmit(e) {
     e.preventDefault();
+    dispatch(userActions.setName(username));
   }
 
   return (
