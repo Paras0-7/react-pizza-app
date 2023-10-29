@@ -2,10 +2,10 @@ import { LinkButton } from "../UI/LinkButton";
 
 export function EmptyCart() {
   return (
-    <div className="mt-4">
+    <div className="px-4 py-3">
       <LinkButton to="/menu">&larr; Back to menu</LinkButton>
 
-      <p className="mt-6">
+      <p className="mt-6 font-semibold">
         Your cart is still empty. Start adding some pizzas :)
       </p>
     </div>

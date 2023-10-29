@@ -48,8 +48,13 @@ const cartSlice = createSlice({
     },
     decreaseItemQuantity(state, action) {
       const item = state.cart.find((item) => item.pizzaId === action.payload);
-      item.quantity--;
-      item.totalPrice = item.totalPrice - item.unitPrice;
+
+      if (item.quantity > 1) {
+        item.quantity--;
+        item.totalPrice = item.totalPrice - item.unitPrice;
+      } else {
+        cartSlice.caseReducers.deleteItem(state, action);
+      }
     },
     emptyCart(state, action) {
       state.cart = [];
@@ -59,3 +64,8 @@ const cartSlice = createSlice({
 
 export const cartReducer = cartSlice.reducer;
 export const cartActions = cartSlice.actions;
+
+export const getQuantityById = function (id) {
+  return (state) =>
+    state.cart.cart.filter((item) => item.pizzaId === id)[0].quantity;
+};
