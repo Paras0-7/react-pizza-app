@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { formatCurrency } from "../../utils/helpers";
 export function CartOverview() {
   const cart = useSelector((state) => state.cart.cart);
   const totalItems = cart.reduce(
@@ -16,7 +17,7 @@ export function CartOverview() {
     >
       <p className="space-x-4 font-semibold text-stone-300 sm:space-x-6">
         <span>{totalItems} pizzas</span>
-        <span>$ {totalPrice}</span>
+        <span>{formatCurrency(totalPrice)}</span>
       </p>
       <Link to="/cart">Open cart &rarr;</Link>
     </div>
