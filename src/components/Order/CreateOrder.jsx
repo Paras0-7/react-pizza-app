@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Form, useNavigation, redirect, useActionData } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { Button } from "../UI/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { EmptyCart } from "../Cart/EmptyCart";
 import { store } from "../../store/store";
 import { cartActions, getTotalCartPrice } from "../../store/slices/cartSlice";
@@ -22,12 +22,13 @@ export function CreateOrder() {
   const cart = useSelector((state) => state.cart.cart);
   const userName = useSelector((state) => state.user.userName);
   const navigate = useNavigation();
+  const dispatch = useDispatch();
   const isSubmitting = navigate.state === "submitting";
 
   const formErros = useActionData();
   const totalCartPrice = useSelector(getTotalCartPrice);
-  const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
-  const totalPrice = totalCartPrice + priorityPrice;
+  const priorityPrice = totalCartPrice * 0.2;
+  const totalPrice = totalCartPrice + (withPriority ? priorityPrice : 0);
   if (!cart.length) return <EmptyCart />;
   return (
     <div className="px-4 py-6">
@@ -76,7 +77,14 @@ export function CreateOrder() {
             id="priority"
             className="h-6 w-6 accent-yellow-400 focus:ring focus:ring-yellow-400 focus:ring-offset-2"
             value={withPriority}
-            onChange={(e) => setWithPriority(e.target.checked)}
+            onChange={(e) => {
+              setWithPriority(e.target.checked);
+              if (e.target.checked) {
+                dispatch(cartActions.addPriorityPrice(priorityPrice));
+              } else {
+                dispatch(cartActions.addPriorityPrice(0));
+              }
+            }}
           />
           <label className="font-medium" htmlFor="priority">
             Want to yo give your order priority?

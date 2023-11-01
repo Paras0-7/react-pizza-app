@@ -2,12 +2,13 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { formatCurrency } from "../../utils/helpers";
 export function CartOverview() {
-  const cart = useSelector((state) => state.cart.cart);
+  const { cart, priorityPrice } = useSelector((state) => state.cart);
   const totalItems = cart.reduce(
     (quantity, item) => quantity + item.quantity,
     0,
   );
-  const totalPrice = cart.reduce((price, item) => price + item.totalPrice, 0);
+  const totalPrice =
+    cart.reduce((price, item) => price + item.totalPrice, 0) + priorityPrice;
 
   if (!totalItems) return;
   return (

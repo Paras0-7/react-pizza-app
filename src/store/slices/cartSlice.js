@@ -11,6 +11,7 @@ const initialState = {
     //   totalPrice: 32,
     // },
   ],
+  priorityPrice: 0,
 };
 
 const cartSlice = createSlice({
@@ -58,6 +59,10 @@ const cartSlice = createSlice({
     },
     emptyCart(state, action) {
       state.cart = [];
+    },
+
+    addPriorityPrice(state, action) {
+      state.priorityPrice = action.payload;
     },
   },
 });
