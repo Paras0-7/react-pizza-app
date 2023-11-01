@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 
 import { createSlice } from "@reduxjs/toolkit";
+import { getAddress } from "../../services/apiGeocoding";
 
 const initialState = {
   userName: "",

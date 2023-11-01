@@ -4,8 +4,6 @@ import { useLoaderData } from "react-router-dom";
 import MenuItem from "./MenuItem";
 export function Menu() {
   const menuData = useLoaderData();
-  // console.log(menuData);
-  console.log("rendered");
   return (
     <ul className="divide-y divide-stone-200 px-2 py-2">
       {menuData.map((menuItem) => {

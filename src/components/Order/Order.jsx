@@ -8,12 +8,26 @@ import {
   formatCurrency,
   formatDate,
 } from "../../utils/helpers";
-import { useLoaderData } from "react-router-dom";
+import {
+  useFetcher,
+  useLoaderData,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { OrderItem } from "./OrderItem";
+import { useEffect, useState } from "react";
+import { Button } from "../UI/Button";
+import { UpdateOrder } from "./UpdateOrder";
 
+const getIngredients = function (menu = [], id) {
+  return menu.find((item) => item.id === id)?.ingredients ?? [];
+};
 export function Order() {
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   const order = useLoaderData();
+  const navigate = useNavigate();
+  const fetcher = useFetcher();
+  const [menuData, setMenuData] = useState([]);
   const {
     id,
     status,
@@ -24,6 +38,12 @@ export function Order() {
     cart,
   } = order;
   const deliveryIn = calcMinutesLeft(estimatedDelivery);
+
+  useEffect(() => {
+    if (fetcher.state === "idle" && !fetcher.data) {
+      fetcher.load("/menu");
+    }
+  }, [fetcher]);
   return (
     <div className="space-y-8 px-4 py-6">
       <div className="jus flex flex-wrap items-center justify-between gap-2">
@@ -54,7 +74,12 @@ export function Order() {
 
       <ul className="divide-y divide-stone-200 border-b border-t">
         {cart.map((item) => (
-          <OrderItem item={item} key={item.pizzaId} />
+          <OrderItem
+            item={item}
+            key={item.pizzaId}
+            isLoadingIngredients={fetcher.state === "loading"}
+            ingredients={getIngredients(fetcher.data, item.pizzaId)}
+          />
         ))}
       </ul>
       <div className="space-y-2 bg-stone-200 px-6 py-5">
@@ -70,6 +95,7 @@ export function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+      {!priority && <UpdateOrder order={order} />}
     </div>
   );
 }
